@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
     var lastNumeric: Boolean = false
@@ -44,7 +45,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onEqual(view: View){}
+    fun onEqual(view: View){
+        if (lastNumeric){
+            var tvValue = tvInput.text.toString()
+
+            try {
+                if(tvValue.contains("-")){
+                        val splitValue = tvValue.split("-")
+                        var one = splitValue[0]
+                        var two = splitValue[1]
+
+                        tvInput.text = (one.toDouble() - two.toDouble()).toString()
+                }
+
+            }catch (e: ArithmeticException) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 
     fun onOperator(view: View){
@@ -60,8 +78,8 @@ class MainActivity : AppCompatActivity() {
         return if (value.startsWith("-")){
             false
         }else{
-            value.contains("/") || value.contains("*") || value.contains("+") ||
-                    value.contains("-")
+            value.contains("/") || value.contains("*") ||
+                    value.contains("+") || value.contains("-")
         }
     }
 
